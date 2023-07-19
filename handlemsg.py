@@ -19,7 +19,7 @@ wash_brain = '''你叫fumo，是一个是日本株式会社Gift出品的东方�
 
 all_convo = {}
 
-chatbot = Chatbot("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",
+chatbot = Chatbot("<在这里填上你的APIKey>",
                   "gpt-3.5-turbo",
                   "https://127.0.0.1:10809",    # 代理
                   temperature=1,
@@ -269,12 +269,13 @@ class HandleMsg:
                 selected_file = random.choice(music_files)
 
                 # 构建发送消息的指令
-                send_command = f'[CQ:record,file=file:///C:/Users/梁晟铭/Desktop/Spit_chatBot-main/qqchatgpt-main/{selected_file}]'
+                send_command = f'[CQ:record,file=file:///<你的music文件夹以前的路径>{selected_file}]'
 
                 # 发送消息
                 send(gid, 'group', send_command)     
                        
             elif msg.split(' ')[0] == 'switch':
+                # 权限组，可以把"@茶了个师 "改成你的qq昵称，空格和“@”要保留
                 if nick == '@茶了个师 ':
                     if self.P == 1:
                         self.P = 0
