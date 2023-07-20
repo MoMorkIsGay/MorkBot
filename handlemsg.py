@@ -265,14 +265,49 @@ class HandleMsg:
                 music_folder = 'music'
                 music_files = [os.path.join(music_folder, file) for file in os.listdir(music_folder) if os.path.isfile(os.path.join(music_folder, file))]
 
-                # 随机选择一个文件
-                selected_file = random.choice(music_files)
+                if len(msg.split(' ')) >= 2:
+                    if msg.split(' ')[1] == 'list':
+                        page_size = 10  # 每页显示的歌曲数量
+                        page = 1  # 当前页码
+                        total_pages = (len(music_files) + page_size - 1) // page_size  # 总页数
 
-                # 构建发送消息的指令
-                send_command = f'[CQ:record,file=file:///<你的music文件夹以前的路径>{selected_file}]'
+                        if len(msg.split(' ')) == 3 and msg.split(' ')[2].isdigit():
+                            page = int(msg.split(' ')[2])  # 用户输入的页码
+                            if page < 1 or page > total_pages:
+                                send(gid, 'group', '(ᗜ‸ᗜ)无效的页码')
+                                return
 
-                # 发送消息
-                send(gid, 'group', send_command)     
+                        # 计算当前页的起始索引和结束索引
+                        start_index = (page - 1) * page_size
+                        end_index = page * page_size
+
+                        # 获取当前页的歌曲列表
+                        current_page_music_files = music_files[start_index:end_index]
+
+                        # 生成当前页的音乐列表
+                        m = ''
+                        for index, i in enumerate(current_page_music_files):
+                            m += f"{index+start_index+1}. {i[6:-4]}\n"
+
+                        # 添加页码信息到音乐列表
+                        m += f"\n当前页: {page}/{total_pages}"
+
+                        send(gid, 'group', '目前可用音乐: \n' + m + '\n输入‘fumo 音乐 list <page>’查看更多')
+                    elif msg.split(' ')[1].isdigit():
+                        index = int(msg.split(' ')[1]) - 1
+                        if index >= 0 and index < len(music_files):
+                            selected_file = music_files[index]
+                            send_command = f'[CQ:record,file=file:///C:/Users/梁晟铭/Desktop/Spit_chatBot-main/qqchatgpt-main/{selected_file}]'
+                            send(gid, 'group', '(ᗜ◡ᗜ)Now playing: ' + selected_file[6:-4])
+                            send(gid, 'group', send_command)
+                        else:
+                            send(gid, 'group', '(ᗜ‸ᗜ)无效的歌曲选择')
+                else:
+                    selected_file = random.choice(music_files)
+                    send_command = f'[CQ:record,file=file:///C:/Users/梁晟铭/Desktop/Spit_chatBot-main/qqchatgpt-main/{selected_file}]'
+                    send(gid, 'group', '(ᗜ◡ᗜ)Now playing: ' + selected_file[6:-4])
+                    send(gid, 'group', send_command)
+
                        
             elif msg.split(' ')[0] == 'switch':
                 # 权限组，可以把"@茶了个师 "改成你的qq昵称，空格和“@”要保留
