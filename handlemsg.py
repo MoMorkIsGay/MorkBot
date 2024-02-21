@@ -297,29 +297,17 @@ class HandleMsg:
                         index = int(msg.split(' ')[1]) - 1
                         if index >= 0 and index < len(music_files):
                             selected_file = music_files[index]
-                            send_command = f'[CQ:record,file=file:///C:/Users/梁晟铭/Desktop/Spit_chatBot-main/qqchatgpt-main/{selected_file}]'
+                            send_command = f'[CQ:record,file=file:///C:/Users/AAA/Desktop/Spit_chatBot-main/qqchatgpt-main/{selected_file}]'
                             send(gid, 'group', '(ᗜ◡ᗜ)Now playing: ' + selected_file[6:-4])
                             send(gid, 'group', send_command)
                         else:
                             send(gid, 'group', '(ᗜ‸ᗜ)无效的歌曲选择')
                 else:
                     selected_file = random.choice(music_files)
-                    send_command = f'[CQ:record,file=file:///C:/Users/梁晟铭/Desktop/Spit_chatBot-main/qqchatgpt-main/{selected_file}]'
+                    send_command = f'[CQ:record,file=file:///C:/Users/AAA/Desktop/Spit_chatBot-main/qqchatgpt-main/{selected_file}]'
                     send(gid, 'group', '(ᗜ◡ᗜ)Now playing: ' + selected_file[6:-4])
                     send(gid, 'group', send_command)
 
-                       
-            elif msg.split(' ')[0] == 'switch':
-                # 权限组，可以把"@茶了个师 "改成你的qq昵称，空格和“@”要保留
-                if nick == '@茶了个师 ':
-                    if self.P == 1:
-                        self.P = 0
-                        send(gid, 'group', 'Bot has been switched "0".')
-                    else:
-                        self.P = 1
-                        send(gid, 'group', 'Bot has been switched "1".')
-                else:
-                    send(gid, 'group', 'You do not have the permission to do this.')
 
             else:
                 if self.P == 1:
